@@ -5,6 +5,12 @@ import getkey
 import getpass
 import cursor
 
+# KeyCodes
+key_up = "\x1b[A"
+key_down = "\x1b[B"
+key_right = "\x1b[C"
+key_left = "\x1b[D"
+
 red = "\033[0;91m"
 w = "\033[0;37m"
 black = "\033[0;30m"
@@ -44,75 +50,73 @@ def clear():
 
 # how the map is generated
 map = [
-  ['b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b'],
-  ['b', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'b'],
-  ['b', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'b'],
-  ['b', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'b'],
-  ['b', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'b'],
-  ['b', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'b'],
-  ['b', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'b'],
-  ['b', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'b'],
-  ['b', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'e', 'b'],
-  ['b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b'],
-]
+  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+  1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+  1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+  1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+  1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+  1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+  1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+  1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+  1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+  1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+  1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+  1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+  1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+  1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+  1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 
+  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+] # 16 x 22
 
 # print the map according where the "shapes" are placed in the map
 def print_map():
-  global i
+  _end = ""
+  i = 0
   for x in map:
-    out = ''
-    for i in x:
-      if i == 'p':   # p for path
-        out += ' '
-      elif i == 'b': # b for barrier 
-        out += '\t'
-      elif i == 'u': # u for user
-        out += '8'
-      # elif i == 'd': # d for death/deadly :P
-      #    out += 'o'
-      # elif i == 'e': # e for exit
-      #   out +='■'
-    print(out)
+    i += 1;
+    if i == 22: 
+      _end = "\n"
+      i = 0
+    else: _end = ""
+    if x == 1: print("  ", end = _end) # 🟦
+    elif x == 0: print("  ", end = _end)
+    elif x == 2: print("()", end = "")
 
-# hide the cursor so it doesn't go brrr
+def find_player() -> int:
+  index = -1;
+  for i in map:
+    index += 1
+    if i == 2: 
+      return index
+
 cursor.hide()
 
-# set the x, y position to (1,1)
-y = 1
-x = 1
+def check_collision(index):
+  return map[index] == 1
 
 # start the game loop
 while True:
   # clear the screen everytime
   os.system('clear')
-
-  # make the user go to the x y cordinates on the map
-  map[y][x] = 'u'
-  
-  # print the map
-  print_map()
-
-  try:
-    map[y][x] = 'p'
-    keyPressed = getkey.getkey()
-    
-    if keyPressed == 's' and map[y+1][x] != 'b':
-      y += 1
-    elif keyPressed == 'w' and map[y-1][x] != 'b':
-      y -= 1
-    elif keyPressed == 'd' and map[y][x+1] != 'b':
-      x += 1
-    elif keyPressed == 'a' and map[y][x-1] != 'b':
-      x -= 1
-
-    # if map[y][x] == 'd':
-    #   clear()
-    #   print("You Lose") 
-    #   break
-
-    # if map[y][x] == 'e':
-    #   os.system('clear')
-    #   print("Victory")
-    #   break
-  except:
-    pass
+  print_map();
+  key = getkey.getkey()
+  if key == 'w' or key == key_up: 
+    player_index = find_player()
+    if not(check_collision(player_index - 22)):
+      map[player_index] = 0;
+      map[player_index - 22] = 2;
+  elif key == 's' or key == key_down:
+    player_index = find_player()
+    if not(check_collision(player_index + 22)):
+      map[player_index] = 0;
+      map[player_index + 22] = 2
+  elif key == 'a' or key == key_left:
+    player_index = find_player()
+    if not(check_collision(player_index - 1)):
+      map[player_index] = 0;
+      map[player_index - 1] = 2
+  elif key == 'd' or key == key_right:
+    player_index = find_player()
+    if not(check_collision(player_index + 1)):
+      map[player_index] = 0;
+      map[player_index + 1] = 2
