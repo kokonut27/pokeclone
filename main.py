@@ -78,14 +78,13 @@ def print_map():
       _end = "\n"
       i = 0
     else: _end = ""
-    if x == 1: print("  ", end = _end) # 🟦
-    elif x == 0: print("  ", end = _end)
-    elif x == 2: print("()", end = "")
+    if x in [1, 0]:
+      if x == 1: print("  ", end = _end) # 🟦
+    elif x == 2:
+      print("()", end = "")
 
 def find_player() -> int:
-  index = -1;
-  for i in map:
-    index += 1
+  for index, i in enumerate(map):
     if i == 2: 
       return index
 
@@ -100,22 +99,22 @@ while True:
   os.system('clear')
   print_map();
   key = getkey.getkey()
-  if key == 'w' or key == key_up: 
+  if key in ['w', key_up]: 
     player_index = find_player()
     if not(check_collision(player_index - 22)):
       map[player_index] = 0;
       map[player_index - 22] = 2;
-  elif key == 's' or key == key_down:
+  elif key in ['s', key_down]:
     player_index = find_player()
     if not(check_collision(player_index + 22)):
       map[player_index] = 0;
       map[player_index + 22] = 2
-  elif key == 'a' or key == key_left:
+  elif key in ['a', key_left]:
     player_index = find_player()
     if not(check_collision(player_index - 1)):
       map[player_index] = 0;
       map[player_index - 1] = 2
-  elif key == 'd' or key == key_right:
+  elif key in ['d', key_right]:
     player_index = find_player()
     if not(check_collision(player_index + 1)):
       map[player_index] = 0;
